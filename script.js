@@ -1,6 +1,6 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.querySelector(".main-nav");
-const CONTACT_EMAIL = "contact@mzansifinance.co.za";
+const CONTACT_EMAIL = "tyvon@mzansifinance.site";
 
 menuToggle.addEventListener("click", () => {
   const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
