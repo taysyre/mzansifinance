@@ -60,6 +60,7 @@ document.querySelector("#contact-form").addEventListener("submit", async (event)
 
     form.reset();
     status.textContent = "Thanks for reaching out. Your message has been sent.";
+    window.alert("Your message has been sent.");
   } catch (error) {
     console.error("Contact form submission failed:", error);
     status.textContent = "We couldn't send your message. Please try again in a moment.";
