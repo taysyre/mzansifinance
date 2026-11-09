@@ -1,6 +1,6 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.querySelector(".main-nav");
-const CONTACT_EMAIL = "tyvon@mzansifinance.site";
+const FORM_ENDPOINT = "https://formspree.io/f/xyeeqqnq";
 
 menuToggle.addEventListener("click", () => {
   const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
@@ -39,17 +39,31 @@ document.querySelectorAll(".faq-item").forEach((item) => {
 
 document.querySelector("#year").textContent = new Date().getFullYear();
 
-document.querySelector("#contact-form").addEventListener("submit", (event) => {
+document.querySelector("#contact-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const formData = new FormData(event.currentTarget);
-  const subject = encodeURIComponent(`MzansiFinance enquiry: ${formData.get("support")}`);
-  const body = encodeURIComponent([
-    `Name: ${formData.get("name")}`,
-    `Email: ${formData.get("email")}`,
-    `I would like help with: ${formData.get("support")}`,
-    "",
-    formData.get("message") || "",
-  ].join("\n"));
-  document.querySelector("#form-status").textContent = "Your email app will open with your message ready. If it doesn't, check your default mail app.";
-  window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+  const form = event.currentTarget;
+  const status = document.querySelector("#form-status");
+  const submitButton = form.querySelector('button[type="submit"]');
+  submitButton.disabled = true;
+  status.textContent = "Sending your message...";
+
+  try {
+    const response = await fetch(FORM_ENDPOINT, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { Accept: "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Form submission failed with status ${response.status}`);
+    }
+
+    form.reset();
+    status.textContent = "Thanks for reaching out. Your message has been sent.";
+  } catch (error) {
+    console.error("Contact form submission failed:", error);
+    status.textContent = "We couldn't send your message. Please try again in a moment.";
+  } finally {
+    submitButton.disabled = false;
+  }
 });
