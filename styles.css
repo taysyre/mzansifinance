@@ -21,13 +21,14 @@ body, button, input, select, textarea { font-family: var(--font-body); }
 a { color: inherit; text-decoration: none; }
 button, input, select, textarea { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 4px; }
 
 .site-header { position: sticky; z-index: 20; top: 0; left: 0; display: flex; width: 100%; height: 88px; align-items: center; justify-content: space-between; padding: 0 7.2%; color: var(--white); border-bottom: 1px solid rgb(255 255 255 / 13%); background: var(--forest); }
 .wordmark { display: inline-flex; align-items: baseline; font-family: var(--font-display); font-size: 23px; font-weight: 800; letter-spacing: 0; }
 .wordmark-mzansi { color: var(--white); }
 .wordmark-finance { color: var(--gold); }
 .main-nav { display: flex; align-items: center; gap: 37px; font-size: 12px; font-weight: 600; }
-.main-nav > a:not(.nav-cta) { color: rgb(255 254 250 / 77%); transition: color 180ms ease; }
+.main-nav > a:not(.nav-cta) { padding: 10px 0; color: rgb(255 254 250 / 77%); transition: color 180ms ease; }
 .main-nav > a:not(.nav-cta):hover { color: var(--gold-light); }
 .nav-cta { display: inline-flex; min-height: 42px; align-items: center; gap: 18px; padding: 0 18px; color: var(--forest-deep); background: var(--gold); font-weight: 700; transition: background 180ms ease, transform 180ms ease; }
 .nav-cta:hover, .button-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
@@ -160,6 +161,11 @@ h2 em { color: #a77a08; }
 .back-top { justify-self: end; color: var(--gold-light); font-size: 10px; }
 .site-footer small { grid-column: 1 / -1; padding-top: 14px; color: rgb(255 254 250 / 38%); border-top: 1px solid rgb(255 255 255 / 12%); font-size: 8px; }
 
+.whatsapp-float { position: fixed; z-index: 30; right: max(clamp(12px, 3vw, 24px), env(safe-area-inset-right)); bottom: max(clamp(12px, 3vw, 24px), env(safe-area-inset-bottom)); display: grid; width: clamp(38px, min(12vw, 6vh), 64px); height: clamp(38px, min(12vw, 6vh), 64px); place-items: center; color: #fff; background: #25d366; border: 2px solid rgb(255 255 255 / 90%); border-radius: 50%; box-shadow: 0 5px 18px rgb(0 0 0 / 24%); transition: transform 180ms ease, background 180ms ease; }
+.whatsapp-float:hover { background: #1ebe5d; transform: translateY(-3px); }
+.whatsapp-float svg { display: block; width: 56%; height: 56%; fill: currentColor; }
+.whatsapp-float:focus-visible { outline-color: var(--forest); outline-offset: 3px; }
+
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity 700ms ease, transform 700ms cubic-bezier(.2,.7,.2,1); }
 .reveal-delay { transition-delay: 130ms; }
 .reveal-delay-more { transition-delay: 240ms; }
@@ -184,18 +190,23 @@ h2 em { color: #a77a08; }
   .faq { gap: 6%; }
   .contact { padding-right: 6%; padding-left: 6%; }
 }
+@media (max-width: 760px) {
+  .site-header { padding-right: 24px; padding-left: 24px; }
+  .menu-toggle { display: flex; width: 44px; height: 44px; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 0; color: var(--white); background: transparent; border: 1px solid rgb(255 255 255 / 27%); cursor: pointer; }
+  .menu-toggle span { width: 18px; height: 1px; background: currentColor; transition: transform 180ms ease; }
+  .menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+  .main-nav { position: absolute; top: 100%; right: 0; left: 0; display: flex; max-height: calc(100vh - 88px); max-height: calc(100dvh - 88px); flex-direction: column; align-items: stretch; gap: 0; overflow-y: auto; padding: 8px 24px 20px; background: var(--forest-deep); border-bottom: 1px solid rgb(255 255 255 / 12%); box-shadow: 0 14px 24px rgb(0 0 0 / 18%); opacity: 0; pointer-events: none; visibility: hidden; transform: translateY(-8px); transition: opacity 180ms ease, transform 180ms ease, visibility 0s linear 180ms; }
+  .main-nav.is-open { opacity: 1; pointer-events: auto; visibility: visible; transform: translateY(0); transition-delay: 0s; }
+  .main-nav > a:not(.nav-cta) { display: flex; min-height: 48px; align-items: center; padding: 10px 0; border-bottom: 1px solid rgb(255 255 255 / 10%); }
+  .main-nav .nav-cta { min-height: 48px; align-self: stretch; justify-content: space-between; margin-top: 14px; }
+}
 @media (max-width: 680px) {
   html { scroll-padding-top: 70px; }
   .site-header { height: 70px; padding: 0 22px; }
   .wordmark { font-size: 20px; }
-  .menu-toggle { display: flex; width: 42px; height: 42px; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 0; color: var(--white); background: transparent; border: 1px solid rgb(255 255 255 / 27%); cursor: pointer; }
-  .menu-toggle span { width: 16px; height: 1px; background: currentColor; transition: transform 180ms ease; }
-  .menu-toggle[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
-  .menu-toggle[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
-  .main-nav { position: absolute; top: 69px; right: 0; left: 0; display: flex; align-items: stretch; gap: 0; padding: 7px 22px 18px; background: var(--forest-deep); border-bottom: 1px solid rgb(255 255 255 / 12%); opacity: 0; pointer-events: none; transform: translateY(-8px); transition: opacity 180ms ease, transform 180ms ease; }
-  .main-nav.is-open { opacity: 1; pointer-events: auto; transform: translateY(0); }
-  .main-nav > a:not(.nav-cta) { padding: 12px 0; border-bottom: 1px solid rgb(255 255 255 / 10%); }
-  .main-nav .nav-cta { align-self: flex-start; margin-top: 13px; }
+  .menu-toggle { width: 42px; height: 42px; }
+  .main-nav { max-height: calc(100vh - 70px); max-height: calc(100dvh - 70px); padding-right: 22px; padding-left: 22px; }
   .hero { min-height: 0; grid-template-columns: 1fr; padding: 128px 24px 92px; }
   .hero::before { top: 2%; right: -50%; width: 115vw; height: 60%; }
   .hero-copy { padding: 0; }

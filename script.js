@@ -1,20 +1,44 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.querySelector(".main-nav");
+const siteHeader = document.querySelector(".site-header");
 const FORM_ENDPOINT = "https://formspree.io/f/xyeeqqnq";
+
+const closeMenu = () => {
+  menuToggle.setAttribute("aria-expanded", "false");
+  menuToggle.setAttribute("aria-label", "Open navigation");
+  mainNav.classList.remove("is-open");
+};
 
 menuToggle.addEventListener("click", () => {
   const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
-  menuToggle.setAttribute("aria-expanded", String(!isExpanded));
-  menuToggle.setAttribute("aria-label", isExpanded ? "Open navigation" : "Close navigation");
-  mainNav.classList.toggle("is-open", !isExpanded);
+  if (isExpanded) {
+    closeMenu();
+    return;
+  }
+  menuToggle.setAttribute("aria-expanded", "true");
+  menuToggle.setAttribute("aria-label", "Close navigation");
+  mainNav.classList.add("is-open");
 });
 
 mainNav.addEventListener("click", (event) => {
   if (event.target.closest("a")) {
-    menuToggle.setAttribute("aria-expanded", "false");
-    menuToggle.setAttribute("aria-label", "Open navigation");
-    mainNav.classList.remove("is-open");
+    closeMenu();
   }
+});
+
+document.addEventListener("click", (event) => {
+  if (!siteHeader.contains(event.target)) closeMenu();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && menuToggle.getAttribute("aria-expanded") === "true") {
+    closeMenu();
+    menuToggle.focus();
+  }
+});
+
+window.matchMedia("(min-width: 761px)").addEventListener("change", (event) => {
+  if (event.matches) closeMenu();
 });
 
 const revealObserver = new IntersectionObserver((entries, observer) => {
